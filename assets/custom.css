@@ -1,0 +1,351 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lustria&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+
+/* Remove default browser focus / tap highlight */
+button,
+a,
+input,
+select,
+textarea,
+[role="button"],
+[tabindex] {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+/* Remove default focus outline */
+button:focus,
+button:focus-visible,
+a:focus,
+a:focus-visible,
+input:focus,
+input:focus-visible,
+select:focus,
+select:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+[role="button"]:focus,
+[role="button"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Prevent text selection highlight on clickable UI */
+button,
+[role="button"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+:root {
+  --btn-color: #FFF544;
+  --menu-duration: 0.4s;
+  --menu-easing: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+h1, p {
+    font-family: "Jost", sans-serif !important;
+}
+
+/* Animation */
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hotspot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspot__ring {
+    animation: none;
+  }
+}
+
+/* Button (Common) */
+
+.btn {
+  width: 22rem;
+  height: 4.5rem;
+  gap: 1rem;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background-color: var(--btn-color);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.btn p {
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  color: black;
+  transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn svg {
+  width: 3rem;
+  position: relative;
+  z-index: 2;
+  color: black;
+  transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: black;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: transform;
+  z-index: 1;
+}
+
+.btn:hover p {
+  color: white;
+}
+
+.btn:hover svg {
+  color: white;
+}
+
+.btn:hover::after {
+  transform: scaleX(1);
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+
+
+sticky-header {
+  position: relative;
+  /* z-index: 100 !important; */
+  background-color: #F5F5F5 !important;
+  /* transition: box-shadow var(--menu-duration) ease; */
+}
+
+
+.header {
+  width: 100% !important;
+}
+
+.header__heading-link .h2 {
+  font-family: "Jost", sans-serif !important;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.header .center-head {
+  display: none;
+}
+
+.header .header-btn {
+  display: none !important;
+}
+
+
+.header__icon--search, header__inline-menu{
+  display: none !important;
+}
+
+.list-menu--inline {
+    display: none !important;
+}
+
+/* =========================
+   MENU DRAWER
+   ========================= */
+
+#menu-drawer {
+  position: absolute !important;
+  top: var(--header-height, 70px);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 24vh;
+  background-color: #F2F2F2 !important;
+  padding-bottom: 6vh;
+  z-index: -1 !important;
+  transform: translateY(-100%) !important;
+  visibility: hidden;
+  transition:
+    transform var(--menu-duration) var(--menu-easing),
+    visibility 0s linear var(--menu-duration);
+}
+
+
+.header__icon--menu[aria-expanded="true"]::before {
+  display: none !important;
+}
+
+
+.menu-drawer-container[open] #menu-drawer,
+.menu-drawer-container.menu-opening #menu-drawer {
+  transform: translateY(0) !important;
+  visibility: visible;
+}
+
+
+/* =========================
+   OPEN
+   ========================= */
+
+.menu-drawer-container[open] #menu-drawer,
+.menu-drawer-container.menu-opening #menu-drawer {
+  transform: translateY(0) !important;
+  visibility: visible;
+
+  transition:
+    transform var(--menu-duration) var(--menu-easing),
+    visibility 0s linear 0s;
+}
+
+
+/* =========================
+   CLOSE
+   ========================= */
+
+.menu-drawer-container.menu-closing #menu-drawer {
+  transform: translateY(-100%) !important;
+  visibility: visible;
+
+  transition:
+    transform var(--menu-duration) var(--menu-easing);
+}
+
+
+/* =========================
+   MENU CONTENT
+   ========================= */
+
+.menu-drawer__inner-container {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.menu-para p {
+  font-size: 1.6rem;
+}
+
+
+/* =========================
+   HEADER SHADOW
+   ========================= */
+
+sticky-header:has(.menu-drawer-container[open]),
+sticky-header:has(.menu-drawer-container.menu-opening),
+sticky-header:has(.menu-drawer-container.menu-closing) {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================
+   MENU BUTTON
+   ========================= */
+
+.menu-btn {
+  position: relative;
+  overflow: hidden;
+  width: 24rem;
+}
+
+
+/* =========================
+   PUSH HOMEPAGE DOWN
+   ========================= */
+#MainContent {
+  position: relative;
+  top: 0;
+  transition: top var(--menu-duration) var(--menu-easing);
+}
+
+body:has(.menu-drawer-container[open]) #MainContent,
+body:has(.menu-drawer-container.menu-opening) #MainContent {
+  top: 24vh;
+}
+
+body:has(.menu-drawer-container.menu-closing) #MainContent {
+  top: 0;
+}
+
+@media (min-width: 900px) {
+  sticky-header {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    height: 70px !important;
+  }
+
+
+  .header-wrapper {
+    width: 100%;
+    display: flex; 
+    justify-content: center;
+  }
+
+  .header {
+        width: 100% !important;
+
+    max-width: none !important;
+
+    margin: 0 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header .center-head p {
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 35.8px;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;    
+  }
+
+
+  .header .center-head {
+    display: block;
+  }
+  .header .header-btn {
+    display: flex !important;
+  }
+}
+
+

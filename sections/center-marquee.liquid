@@ -1,0 +1,114 @@
+{% comment %}
+  Center Marquee Section
+  Text and background color are editable from the Theme Editor.
+{% endcomment %}
+
+<div class="center-marquee-{{ section.id }}">
+  {%- if section.settings.marquee_text_desktop != blank -%}
+    <h1 class="center-marquee__desktop">
+      {{ section.settings.marquee_text_desktop }}
+    </h1>
+  {%- endif -%}
+  {%- if section.settings.marquee_text_mobile != blank -%}
+    <h1 class="center-marquee__mobile">
+      {{ section.settings.marquee_text_mobile }}
+    </h1>
+  {%- endif -%}
+</div>
+
+{% style %}
+  .center-marquee-{{ section.id }} {
+    width: 100%;
+    background-color: {{ section.settings.background_color }};
+    height: 4.8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .center-marquee-{{ section.id }} h1 {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 35.8px;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;
+    color: {{ section.settings.text_color }};
+    margin: 0;
+  }
+
+  .center-marquee-{{ section.id }} .center-marquee__mobile {
+    display: none;
+  }
+
+  .center-marquee-{{ section.id }} .center-marquee__desktop {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .center-marquee-{{ section.id }} {
+      width: 100%;
+      background-color: {{ section.settings.background_color }};
+      height: 34px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .center-marquee-{{ section.id }} h1 {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 13.42px;
+      letter-spacing: 0px;
+      text-align: center;
+      vertical-align: middle;
+      color: {{ section.settings.text_color }};
+      margin: 0;
+    }
+
+    .center-marquee-{{ section.id }} .center-marquee__desktop {
+      display: none;
+    }
+
+    .center-marquee-{{ section.id }} .center-marquee__mobile {
+      display: block;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Center Marquee",
+  "tag": "section",
+  "class": "center-marquee-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "marquee_text_desktop",
+      "label": "Text for desktop",
+      "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+    },
+    {
+      "type": "text",
+      "id": "marquee_text_mobile",
+      "label": "Text for mobile",
+      "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Center Marquee"
+    }
+  ]
+}
+{% endschema %}
