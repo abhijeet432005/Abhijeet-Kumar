@@ -1,1 +1,63 @@
-{"name":"t:sections.footer.name","type":"footer","sections":{"footer":{"type":"footer","disabled":true,"settings":{"color_scheme":"scheme-1","newsletter_enable":true,"newsletter_heading":"Subscribe to our emails","enable_follow_on_shop":true,"show_social":true,"enable_country_selector":true,"enable_language_selector":true,"payment_enable":true,"show_policy":true,"margin_top":0,"padding_top":36,"padding_bottom":36}}},"order":["footer"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "custom_footer_QEHy8Q": {
+      "type": "custom-footer",
+      "name": "Custom footer",
+      "settings": {
+        "about_text": "Build your own box of favourites, delivered to your door.",
+        "show_newsletter": true,
+        "newsletter_heading": "Join our newsletter",
+        "menu_1_title": "Quick links",
+        "menu_1": "",
+        "menu_2_title": "Customer care",
+        "menu_2": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "instagram": "",
+        "facebook": "",
+        "youtube": "",
+        "tiktok": "",
+        "x_twitter": "",
+        "pinterest": "",
+        "show_payment_icons": true,
+        "bg": "#111111",
+        "text": "#ffffff",
+        "accent": "#FFF544"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "custom_footer_QEHy8Q",
+    "footer"
+  ]
+}
