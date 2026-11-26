@@ -1,0 +1,75 @@
+{%- liquid
+  assign box_ids = ''
+  for item in cart.items
+    assign bid = item.properties._box_id
+    if bid != blank
+      unless box_ids contains bid
+        assign box_ids = box_ids | append: bid | append: ','
+      endunless
+    endif
+  endfor
+  assign box_ids = box_ids | split: ','
+-%}
+
+{%- for bid in box_ids -%}
+  {%- liquid
+    assign box_total = 0
+    assign box_name = 'Your box'
+    assign line_keys = ''
+    for item in cart.items
+      if item.properties._box_id == bid
+        assign box_total = box_total | plus: item.final_line_price
+        assign box_name = item.properties._box_name
+        assign line_keys = line_keys | append: item.key | append: ','
+      endif
+    endfor
+  -%}
+  <div class="cart-box" data-cart-box data-line-keys="{{ line_keys }}">
+    <div class="cart-box__head">
+      <h3 class="cart-box__title">{{ box_name }}</h3>
+      <span class="cart-box__total">{{ box_total | money }}</span>
+    </div>
+    <ul class="cart-box__items">
+      {%- for item in cart.items -%}
+        {%- if item.properties._box_id == bid -%}
+          <li class="cart-box__item">
+            {%- if item.image -%}<img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.product.title | escape }}" width="60" height="60">{%- endif -%}
+            <div>
+              <a href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}<small>{{ item.variant.title }}</small>{%- endunless -%}
+            </div>
+            <span>{{ item.final_line_price | money }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    <button type="button" class="cart-box__remove" data-remove-box>Remove box</button>
+  </div>
+{%- endfor -%}
+
+<style>
+  .cart-box { border: 1px solid #111; padding: 1.6rem; margin-bottom: 2rem; font-family: "Jost", sans-serif; }
+  .cart-box__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+  .cart-box__title { font-family: "Lustria", serif; font-weight: 400; font-size: 2rem; margin: 0; }
+  .cart-box__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  .cart-box__item { display: grid; grid-template-columns: 60px 1fr auto; gap: 1rem; align-items: center; }
+  .cart-box__item img { width: 60px; height: 60px; object-fit: cover; }
+  .cart-box__item small { display: block; color: #666; }
+  .cart-box__remove { margin-top: 1rem; background: none; border: none; border-bottom: 1px solid #111; cursor: pointer; padding: 0; font-family: inherit; }
+</style>
+
+<script>
+  document.querySelectorAll('[data-remove-box]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var keys = btn.closest('[data-cart-box]').dataset.lineKeys.split(',').filter(Boolean);
+      var updates = {};
+      keys.forEach(function (k) { updates[k] = 0; });
+      btn.disabled = true;
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates: updates })
+      }).then(function () { window.location.reload(); });
+    });
+  });
+</script>
