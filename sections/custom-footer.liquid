@@ -1,0 +1,204 @@
+{%- liquid
+  assign menu_1 = section.settings.menu_1
+  assign menu_2 = section.settings.menu_2
+-%}
+
+<footer class="cf" role="contentinfo">
+  <div class="cf__inner">
+
+    <div class="cf__top">
+      {%- comment -%} Brand + newsletter {%- endcomment -%}
+      <div class="cf__col cf__col--brand">
+        <a href="{{ routes.root_url }}" class="cf__logo">{{ shop.name }}</a>
+        {%- if section.settings.about_text != blank -%}
+          <p class="cf__about">{{ section.settings.about_text | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.show_newsletter -%}
+          <div class="cf__news">
+            <p class="cf__heading">{{ section.settings.newsletter_heading | escape }}</p>
+            {%- form 'customer', id: 'CustomFooterNewsletter' -%}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="cf__news-row">
+                <input type="email" name="contact[email]" class="cf__input" placeholder="Your email" required autocomplete="email" aria-label="Email address">
+                <button type="submit" class="cf__btn">Subscribe</button>
+              </div>
+              {%- if form.posted_successfully? -%}
+                <p class="cf__msg cf__msg--ok">Thanks for subscribing!</p>
+              {%- endif -%}
+              {%- if form.errors -%}
+                <p class="cf__msg cf__msg--err">{{ form.errors | default_errors }}</p>
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Column 1: Quick links {%- endcomment -%}
+      <nav class="cf__col" aria-label="Quick links">
+        <p class="cf__heading">{{ section.settings.menu_1_title | escape }}</p>
+        <ul class="cf__list">
+          {%- if menu_1 != blank -%}
+            {%- for link in menu_1.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            <li><a href="{{ routes.root_url }}">Home</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">Shop</a></li>
+            <li><a href="/pages/build-your-box">Build your box</a></li>
+            <li><a href="/pages/about">About</a></li>
+            <li><a href="/pages/contact">Contact</a></li>
+            <li><a href="{{ routes.cart_url }}">Cart{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
+
+      {%- comment -%} Column 2: Customer care {%- endcomment -%}
+      <nav class="cf__col" aria-label="Customer care">
+        <p class="cf__heading">{{ section.settings.menu_2_title | escape }}</p>
+        <ul class="cf__list">
+          {%- if menu_2 != blank -%}
+            {%- for link in menu_2.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            <li><a href="{{ routes.account_url }}">My account</a></li>
+            <li><a href="{{ routes.search_url }}">Search</a></li>
+            <li><a href="{{ routes.privacy_policy_url | default: '/policies/privacy-policy' }}">Privacy policy</a></li>
+            <li><a href="/policies/refund-policy">Refund policy</a></li>
+            <li><a href="/policies/shipping-policy">Shipping policy</a></li>
+            <li><a href="/policies/terms-of-service">Terms of service</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
+
+      {%- comment -%} Column 3: Contact + social {%- endcomment -%}
+      <div class="cf__col">
+        <p class="cf__heading">Get in touch</p>
+        <ul class="cf__list cf__list--plain">
+          {%- if section.settings.email != blank -%}
+            <li><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></li>
+          {%- endif -%}
+          {%- if section.settings.phone != blank -%}
+            <li><a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a></li>
+          {%- endif -%}
+          {%- if section.settings.address != blank -%}
+            <li>{{ section.settings.address | escape }}</li>
+          {%- endif -%}
+        </ul>
+
+        {%- assign has_social = false -%}
+        {%- if section.settings.instagram != blank or section.settings.facebook != blank or section.settings.youtube != blank or section.settings.tiktok != blank or section.settings.x_twitter != blank or section.settings.pinterest != blank -%}
+          {%- assign has_social = true -%}
+        {%- endif -%}
+        {%- if has_social -%}
+          <p class="cf__heading cf__heading--sub">Follow us</p>
+          <ul class="cf__social">
+            {%- if section.settings.instagram != blank -%}<li><a href="{{ section.settings.instagram }}" target="_blank" rel="noopener">Instagram</a></li>{%- endif -%}
+            {%- if section.settings.facebook != blank -%}<li><a href="{{ section.settings.facebook }}" target="_blank" rel="noopener">Facebook</a></li>{%- endif -%}
+            {%- if section.settings.youtube != blank -%}<li><a href="{{ section.settings.youtube }}" target="_blank" rel="noopener">YouTube</a></li>{%- endif -%}
+            {%- if section.settings.tiktok != blank -%}<li><a href="{{ section.settings.tiktok }}" target="_blank" rel="noopener">TikTok</a></li>{%- endif -%}
+            {%- if section.settings.x_twitter != blank -%}<li><a href="{{ section.settings.x_twitter }}" target="_blank" rel="noopener">X</a></li>{%- endif -%}
+            {%- if section.settings.pinterest != blank -%}<li><a href="{{ section.settings.pinterest }}" target="_blank" rel="noopener">Pinterest</a></li>{%- endif -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="cf__bottom">
+      <p class="cf__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+
+      {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+        <ul class="cf__pay" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'cf__pay-icon' }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <a href="#top" class="cf__top-link" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top &uarr;</a>
+    </div>
+
+  </div>
+</footer>
+
+{%- style -%}
+  .cf { background: {{ section.settings.bg }}; color: {{ section.settings.text }}; font-family: "Jost", sans-serif; }
+  .cf a { color: inherit; text-decoration: none; }
+  .cf__inner { max-width: 1400px; margin: 0 auto; padding: 64px 48px 28px; }
+  .cf__top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid {{ section.settings.text }}33; }
+  .cf__logo { font-family: "Lustria", serif; font-size: 28px; display: inline-block; margin-bottom: 16px; }
+  .cf__about { font-size: 15px; line-height: 1.6; opacity: .8; margin: 0 0 24px; max-width: 360px; }
+  .cf__heading { font-family: "Lustria", serif; font-size: 18px; margin: 0 0 16px; font-weight: 400; }
+  .cf__heading--sub { margin-top: 24px; }
+  .cf__list, .cf__social, .cf__pay { list-style: none; margin: 0; padding: 0; }
+  .cf__list li { margin-bottom: 10px; font-size: 15px; line-height: 1.5; }
+  .cf__list a, .cf__social a { opacity: .85; background: linear-gradient({{ section.settings.accent }}, {{ section.settings.accent }}) 0 100% / 0 1px no-repeat; transition: background-size .3s, opacity .3s; }
+  .cf__list a:hover, .cf__social a:hover { opacity: 1; background-size: 100% 1px; }
+  .cf__social { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 15px; }
+  .cf__news-row { display: flex; border: 1px solid {{ section.settings.text }}; max-width: 380px; }
+  .cf__input { flex: 1; min-width: 0; background: transparent; border: none; padding: 0 14px; height: 46px; font-family: inherit; font-size: 15px; color: inherit; outline: none; }
+  .cf__input::placeholder { color: inherit; opacity: .55; }
+  .cf__btn { height: 46px; padding: 0 20px; border: none; cursor: pointer; background: {{ section.settings.accent }}; color: #111; text-transform: uppercase; letter-spacing: .05em; font-family: inherit; font-size: 13px; transition: opacity .3s; }
+  .cf__btn:hover { opacity: .85; }
+  .cf__msg { font-size: 13px; margin: 10px 0 0; }
+  .cf__msg--ok { color: {{ section.settings.accent }}; }
+  .cf__msg--err { color: #ff8a8a; }
+  .cf__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-top: 24px; font-size: 13px; }
+  .cf__copy { margin: 0; opacity: .75; }
+  .cf__pay { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cf__pay-icon { height: 24px; width: auto; }
+  .cf__top-link { opacity: .85; }
+  .cf__top-link:hover { opacity: 1; }
+  @media (max-width: 989px) {
+    .cf__top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .cf__col--brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 600px) {
+    .cf__inner { padding: 44px 20px 24px; }
+    .cf__top { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
+    .cf__bottom { flex-direction: column; align-items: flex-start; }
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Custom footer",
+  "settings": [
+    { "type": "header", "content": "Brand" },
+    { "type": "textarea", "id": "about_text", "label": "About text", "default": "Build your own box of favourites, delivered to your door." },
+
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter signup", "default": true },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join our newsletter" },
+
+    { "type": "header", "content": "Link columns" },
+    { "type": "text", "id": "menu_1_title", "label": "Column 1 title", "default": "Quick links" },
+    { "type": "link_list", "id": "menu_1", "label": "Column 1 menu", "info": "Leave empty to use default links (Home, Shop, Build your box, About, Contact, Cart)." },
+    { "type": "text", "id": "menu_2_title", "label": "Column 2 title", "default": "Customer care" },
+    { "type": "link_list", "id": "menu_2", "label": "Column 2 menu", "info": "Leave empty to use default links (Account, Search, policies)." },
+
+    { "type": "header", "content": "Contact" },
+    { "type": "text", "id": "email", "label": "Email" },
+    { "type": "text", "id": "phone", "label": "Phone" },
+    { "type": "textarea", "id": "address", "label": "Address" },
+
+    { "type": "header", "content": "Social links" },
+    { "type": "url", "id": "instagram", "label": "Instagram" },
+    { "type": "url", "id": "facebook", "label": "Facebook" },
+    { "type": "url", "id": "youtube", "label": "YouTube" },
+    { "type": "url", "id": "tiktok", "label": "TikTok" },
+    { "type": "url", "id": "x_twitter", "label": "X (Twitter)" },
+    { "type": "url", "id": "pinterest", "label": "Pinterest" },
+
+    { "type": "header", "content": "Bottom bar" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#111111" },
+    { "type": "color", "id": "text", "label": "Text", "default": "#ffffff" },
+    { "type": "color", "id": "accent", "label": "Accent", "default": "#FFF544" }
+  ],
+  "presets": [{ "name": "Custom footer", "category": "Footer" }]
+}
+{% endschema %}
