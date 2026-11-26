@@ -24,7 +24,7 @@
         "heading": "Build your box",
         "subheading": "Pick 3 products and add them to your cart in one click.",
         "box_name": "Your box",
-        "box_collection": "",
+        "box_collection": "products",
         "box_size": 3
       }
     }
