@@ -11,13 +11,26 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "build_your_box_mgphwb": {
+      "type": "build-your-box",
+      "name": "Build your box",
+      "settings": {
+        "heading": "Build your box",
+        "subheading": "Pick 3 products and add them to your cart in one click.",
+        "box_name": "Your box",
+        "box_collection": "",
+        "box_size": 3
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "build_your_box_mgphwb"
   ]
 }
