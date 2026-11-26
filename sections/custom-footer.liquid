@@ -9,7 +9,21 @@
     <div class="cf__top">
       {%- comment -%} Brand + newsletter {%- endcomment -%}
       <div class="cf__col cf__col--brand">
-        <a href="{{ routes.root_url }}" class="cf__logo">{{ shop.name }}</a>
+        {%- if section.settings.logo_type == 'image' and section.settings.logo_image != blank -%}
+  <a href="{{ routes.root_url }}" class="cf__logo cf__logo--image">
+    {{
+      section.settings.logo_image
+      | image_url: width: 600
+      | image_tag:
+        loading: 'lazy',
+        width: section.settings.logo_width,
+        alt: section.settings.logo_text | default: 'Logo',
+        style: 'width:' | append: section.settings.logo_width | append: 'px;height:auto;max-width:100%;'
+    }}
+  </a>
+{%- elsif section.settings.logo_text != blank -%}
+  <a href="{{ routes.root_url }}" class="cf__logo">{{ section.settings.logo_text | escape }}</a>
+{%- endif -%}
         {%- if section.settings.about_text != blank -%}
           <p class="cf__about">{{ section.settings.about_text | escape }}</p>
         {%- endif -%}
