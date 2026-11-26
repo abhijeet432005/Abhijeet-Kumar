@@ -55,6 +55,7 @@
       <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
         <div class="js-contents">
           {%- if cart != empty -%}
+            {% render 'box-cart-groups' %}
             <table class="cart-items">
               <caption class="visually-hidden">
                 {{ 'sections.cart.title' | t }}
@@ -82,6 +83,7 @@
 
               <tbody>
                 {%- for item in cart.items -%}
+                  {%- if item.properties._box_id != blank %}{% continue %}{% endif -%}
                   <tr
                     class="cart-item {% if item.parent_relationship.parent != null %}cart-item__nested-line{% endif %}"
                     id="CartItem-{{ item.index | plus: 1 }}"
