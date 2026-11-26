@@ -15,6 +15,9 @@
       "type": "custom-footer",
       "name": "Custom footer",
       "settings": {
+        "logo_type": "text",
+        "logo_text": "TISSO VISON",
+        "logo_width": 140,
         "about_text": "Build your own box of favourites, delivered to your door.",
         "show_newsletter": true,
         "newsletter_heading": "Join our newsletter",
@@ -34,7 +37,7 @@
         "show_payment_icons": true,
         "bg": "#111111",
         "text": "#ffffff",
-        "accent": "#FFF544"
+        "accent": "#fff544"
       }
     },
     "footer": {
